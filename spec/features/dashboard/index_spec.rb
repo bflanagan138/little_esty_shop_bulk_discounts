@@ -144,4 +144,12 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to_not have_content(@bulk_discounts_4.name)
     end
   end
+
+  describe 'bd_us2' do
+    it 'shows a link to create a new discount' do
+      visit merchant_bulk_discounts_path(@merchant1)
+save_and_open_page
+      expect(page).to have_link("New Discount")
+    end
+  end
 end
