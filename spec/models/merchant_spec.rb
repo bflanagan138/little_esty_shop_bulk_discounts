@@ -10,7 +10,7 @@ describe Merchant do
     it {should have_many(:invoices).through(:invoice_items)}
     it { should have_many(:customers).through(:invoices) }
     it { should have_many(:transactions).through(:invoices) }
-
+    it { should have_many :bulk_discounts}
   end
 
   describe "class methods" do
@@ -158,5 +158,6 @@ describe Merchant do
     it "best_day" do
       expect(@merchant1.best_day).to eq(@invoice_8.created_at.to_date)
     end
+
   end
 end
