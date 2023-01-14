@@ -51,7 +51,6 @@ RSpec.describe 'merchant dashboard' do
 
   describe 'bd_us2' do
     it 'has a form to create a new discount' do
-
       expect(page).to have_content("Create a New Discount")
       expect(page).to have_field("Discount Name:")
       expect(page).to have_field("Percent Off:")
@@ -60,9 +59,10 @@ RSpec.describe 'merchant dashboard' do
       fill_in("Discount Name:", with: "Saturday Scramble")
       fill_in("Percent Off:", with: "10")
       fill_in("Minimum Item Purchase Quantity:", with: "8")
-      click_button("Save ")
+      click_button("Save")
       expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts")
       expect(page).to have_content("Saturday Scramble")
+   
     end
   end
 end
