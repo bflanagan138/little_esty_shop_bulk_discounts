@@ -46,43 +46,15 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
 
-    visit merchant_bulk_discounts_path(@merchant1)
+    visit merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
   end
 
-  describe 'bd_us1' do
-    it 'shows all bulk discounts including their percentage discounts and quantity thresholds' do
+  describe 'us4' do
+    it 'shows bulk discount quantity threshold and percentage discount' do
       expect(page).to have_content(@bulk_discounts_1.name)
-      expect(page).to have_content(@bulk_discounts_1.percent_off)
+      expect(page).to have_content("#{@bulk_discounts_1.percent_off}% Off")
       expect(page).to have_content(@bulk_discounts_1.minimum_quantity)
       expect(page).to_not have_content(@bulk_discounts_4.name)
     end
   end
-  
-  describe 'bd_us2' do
-    it 'shows a link to create a new discount and when I click that link it takes me to a new discount page' do
-      
-      expect(page).to have_link("New Discount")
-      click_link("New Discount")
-      
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/new")
-    end
-  end
-  
-  describe 'bd_us3' do
-    it 'has a delete link next to each bulk discount' do
-      within("#discount_#{@bulk_discounts_1.id}") do
-        expect(page).to have_link("Delete")
-      end
-    end
-
-    it 'when I click the delete link, i am redirected to the bulk discounts index page" and no longer see the discount' do
-      within("#discount_#{@bulk_discounts_1.id}") do
-        click_link("Delete")
-       
-        expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
-      end
-      expect(page).to_not have_content("#{@bulk_discounts_1.name}")
-    end
-  end
 end
-
