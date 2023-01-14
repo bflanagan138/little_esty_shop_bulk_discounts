@@ -136,31 +136,3 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 end
-
-#   describe 'bd_us2' do
-#     it 'shows a link to create a new discount and when I click that link it takes me to a new discount page' do
-#       visit merchant_bulk_discounts_path(@merchant1)
-
-#       expect(page).to have_link("New Discount")
-#       click_link("New Discount")
-
-#       expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/new")
-#     end
-
-#     it 'has a form to create a new discount' do
-#       visit new_merchant_bulk_discount_path(@merchant1)
-
-#       expect(page).to have_content("Create a New Discount")
-#       expect(page).to have_field("Discount Name:")
-#       expect(page).to have_field("Percent Off:")
-#       expect(page).to have_field("Minimum Item Purchase Quantity:")
-#       fill_in("Discount Name:", with: "Saturday Scramble")
-#       fill_in("Percent Off:", with: "10")
-#       fill_in("Minimum Item Purchase Quantity:", with: "8")
-#       click_button("Save ")
-#       expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts")
-#       # expect(page).to have_content("Saturday Scramble")
-#       save_and_open_page
-#     end
-#   end
-# end

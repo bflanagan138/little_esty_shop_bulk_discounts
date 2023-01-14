@@ -50,7 +50,6 @@ RSpec.describe 'merchant dashboard' do
   end
 
   describe 'bd_us1' do
-
     it 'shows all bulk discounts including their percentage discounts and quantity thresholds' do
       visit merchant_bulk_discounts_path(@merchant1)
      
