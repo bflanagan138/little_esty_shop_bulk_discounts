@@ -146,10 +146,13 @@ RSpec.describe 'merchant dashboard' do
   end
 
   describe 'bd_us2' do
-    it 'shows a link to create a new discount' do
+    it 'shows a link to create a new discount and when I click that lin' do
       visit merchant_bulk_discounts_path(@merchant1)
-save_and_open_page
+
       expect(page).to have_link("New Discount")
+      click_link("New Discount")
+
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/new")
     end
   end
 end
