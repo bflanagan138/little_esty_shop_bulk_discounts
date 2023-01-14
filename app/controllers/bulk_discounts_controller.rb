@@ -26,7 +26,11 @@ class BulkDiscountsController < ApplicationController
     discount = BulkDiscount.find_by(merchant_id: params[:merchant_id], id: params[:id])
     discount.destroy
     redirect_to merchant_bulk_discounts_path(merchant)
+  end
 
+  def show
+    @show_discount = BulkDiscount.find(params[:id])
+    # require 'pry'; binding.pry
   end
 
   private

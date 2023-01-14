@@ -52,10 +52,9 @@ RSpec.describe 'merchant dashboard' do
   describe 'us4' do
     it 'shows bulk discount quantity threshold and percentage discount' do
       expect(page).to have_content(@bulk_discounts_1.name)
-      expect(page).to have_content(@bulk_discounts_1.percent_off)
+      expect(page).to have_content("#{@bulk_discounts_1.percent_off}% Off")
       expect(page).to have_content(@bulk_discounts_1.minimum_quantity)
       expect(page).to_not have_content(@bulk_discounts_4.name)
-
     end
   end
 end
