@@ -58,11 +58,16 @@ RSpec.describe 'merchant dashboard' do
 
       fill_in("Discount Name:", with: "Saturday Scramble")
       fill_in("Percent Off:", with: "10")
+      click_button("Save")
+      save_and_open_page
+      expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant1))
+      expect(page).to have_content("Error: All fields are required")
       fill_in("Minimum Item Purchase Quantity:", with: "8")
       click_button("Save")
+      
       expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts")
       expect(page).to have_content("Saturday Scramble")
-   
+   save_and_open_page
     end
   end
 end

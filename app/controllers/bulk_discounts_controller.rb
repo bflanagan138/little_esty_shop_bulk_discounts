@@ -11,7 +11,7 @@ class BulkDiscountsController < ApplicationController
   
   def create
     merchant = Merchant.find(params[:merchant_id])
-    bulk_discount = merchant.bulk_discounts.create!(bulk_discount_params)
+    bulk_discount = merchant.bulk_discounts.new(bulk_discount_params)
     if bulk_discount.save 
       redirect_to "/merchant/#{merchant.id}/bulk_discounts"
       flash[:alert] = "Bulk Discount added"
