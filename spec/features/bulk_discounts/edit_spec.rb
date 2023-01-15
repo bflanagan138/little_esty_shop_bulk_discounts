@@ -46,13 +46,15 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
 
-    visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
+    # visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
   
   end
 
   describe 'us5' do
     it 'shows an an edit form for the discount with all attributes pre-populated' do
-      # require 'pry'; binding.pry
+      visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
+      expect(current_path).to_not eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}")
+
       expect(page).to have_content("Edit")
       expect(find('form')).to have_content("Name")
       expect(find('form')).to have_content("Minimum quantity")
@@ -66,13 +68,14 @@ RSpec.describe 'merchant dashboard' do
       fill_in("Percent off", with: "11")
       fill_in("Minimum quantity", with: "11")
       click_button("Save")
-
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts")
-      save_and_open_page
+      
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}")
+      
       expect(page).to have_content("Eleven for Eleven")
-      expect(page).to have_content("Minimum Order Threshold: 11")
-      expect(page).to have_content("Percent Off: 11%")
+      expect(page).to have_content("Minimum Order Quantity: 11")
+      expect(page).to have_content("Discount: 11%")
       expect(page).to_not have_content("Ten for Ten")
+     
     end
   end
 end
