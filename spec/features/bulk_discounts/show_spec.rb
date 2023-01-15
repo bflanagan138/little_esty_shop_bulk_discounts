@@ -57,4 +57,12 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to_not have_content(@bulk_discounts_4.name)
     end
   end
+
+  describe 'us5' do
+    it 'has a link to edit the bulk discount' do
+      expect(page).to have_link("Edit #{@bulk_discounts_1.name}")
+      expect(page).to_not have_link("Edit #{@bulk_discounts_2.name}")
+      save_and_open_page
+    end
+  end
 end
