@@ -62,6 +62,12 @@ RSpec.describe 'merchant dashboard' do
     it 'has a link to edit the bulk discount' do
       expect(page).to have_link("Edit #{@bulk_discounts_1.name}")
       expect(page).to_not have_link("Edit #{@bulk_discounts_2.name}")
+    end
+    
+    it 'takes me to a new page with an edit form for the discount with all attributes pre-populated' do
+      click_link("Edit #{@bulk_discounts_1.name}")
+
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}/edit")
       save_and_open_page
     end
   end

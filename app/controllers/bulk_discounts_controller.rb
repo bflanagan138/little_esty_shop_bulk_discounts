@@ -30,7 +30,11 @@ class BulkDiscountsController < ApplicationController
 
   def show
     @show_discount = BulkDiscount.find(params[:id])
-    # require 'pry'; binding.pry
+    
+  end
+
+  def edit
+
   end
 
   private
