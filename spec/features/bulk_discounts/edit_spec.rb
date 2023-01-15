@@ -62,7 +62,17 @@ RSpec.describe 'merchant dashboard' do
       page.should have_field("Minimum quantity", with: "#{@bulk_discounts_1.minimum_quantity}")
       page.should have_field("Percent off", with: "#{@bulk_discounts_1.percent_off}")
      
+      fill_in("Name", with: "Eleven for Eleven")
+      fill_in("Percent off", with: "11")
+      fill_in("Minimum quantity", with: "11")
+      click_button("Save")
 
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts")
+      save_and_open_page
+      expect(page).to have_content("Eleven for Eleven")
+      expect(page).to have_content("Minimum Order Threshold: 11")
+      expect(page).to have_content("Percent Off: 11%")
+      expect(page).to_not have_content("Ten for Ten")
     end
   end
 end
