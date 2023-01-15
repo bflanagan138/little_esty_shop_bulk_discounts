@@ -93,11 +93,18 @@ RSpec.describe 'invoices show' do
       click_button "Update Invoice"
 
       expect(page).to have_content("cancelled")
-     end
+    end
 
-     within("#current-invoice-status") do
-       expect(page).to_not have_content("in progress")
-     end
+    within("#current-invoice-status") do
+      expect(page).to_not have_content("in progress")
+    end
   end
 
+  describe 'us6' do
+    it 'shows total revenue for merchant from invoice excluding discounts' do
+      visit merchant_invoice_path(@merchant1, @invoice_1)
+      expect(page).to have_content("Total Revenue: #{@invoice_1.total_revenue}")
+      
+    end
+  end
 end
