@@ -47,13 +47,22 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
 
     visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
-  end
   
+  end
+
   describe 'us5' do
     it 'shows an an edit form for the discount with all attributes pre-populated' do
+      # require 'pry'; binding.pry
       expect(page).to have_content("Edit")
-      save_and_open_page
-      # expect(page).to have_field()
+      expect(find('form')).to have_content("Name")
+      expect(find('form')).to have_content("Minimum quantity")
+      expect(find('form')).to have_content("Percent off")
+      
+      page.should have_field("Name", with: "#{@bulk_discounts_1.name}")
+      page.should have_field("Minimum quantity", with: "#{@bulk_discounts_1.minimum_quantity}")
+      page.should have_field("Percent off", with: "#{@bulk_discounts_1.percent_off}")
+     
+
     end
   end
 end
