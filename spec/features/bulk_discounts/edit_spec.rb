@@ -46,28 +46,14 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
 
-    visit merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
+    visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
   end
-
-  describe 'us4' do
-    it 'shows bulk discount quantity threshold and percentage discount' do
-      expect(page).to have_content(@bulk_discounts_1.name)
-      expect(page).to have_content("#{@bulk_discounts_1.percent_off}% Off")
-      expect(page).to have_content(@bulk_discounts_1.minimum_quantity)
-      expect(page).to_not have_content(@bulk_discounts_4.name)
-    end
-  end
-
+  
   describe 'us5' do
-    it 'has a link to edit the bulk discount' do
-      expect(page).to have_link("Edit #{@bulk_discounts_1.name}")
-      expect(page).to_not have_link("Edit #{@bulk_discounts_2.name}")
-    end
-    
-    it 'takes me to an edit page' do
-      click_link("Edit #{@bulk_discounts_1.name}")
-
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}/edit")
+    it 'shows an an edit form for the discount with all attributes pre-populated' do
+      expect(page).to have_content("Edit")
+      save_and_open_page
+      # expect(page).to have_field()
     end
   end
 end

@@ -1,1 +1,13 @@
 <h1> Edit </h1>
+<%= form_with url: edit_merchant_bulk_discount_path, method: :patch, local: true do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name, :value => @edit_discount.name %>
+<br>
+  <%= f.label :minimum_quantity %>
+  <%= f.text_field :minimum_quantity, :value => @edit_discount.minimum_quantity %>
+<br>
+  <%= f.label :percent_off %>
+  <%= f.text_field :percent_off, :value => @edit_discount.percent_off %>
+
+  <%= f.submit %>
+<% end %>

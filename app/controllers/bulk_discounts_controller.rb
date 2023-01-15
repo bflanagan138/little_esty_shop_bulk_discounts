@@ -34,6 +34,10 @@ class BulkDiscountsController < ApplicationController
   end
 
   def edit
+    @edit_discount = BulkDiscount.find(params[:id])
+  end
+
+  def update
 
   end
 
