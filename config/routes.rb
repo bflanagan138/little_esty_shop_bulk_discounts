@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :item_status, only: [:update]
     resources :invoices, only: [:index, :show, :update]
     resources :bulk_discounts, except: [:update, :destroy]
-    resources :bulk_discounts, only: [:destroy], controller: :bulk_discounts
+    resources :bulk_discounts, only: [:destroy, :update], controller: :bulk_discounts
   end
 
   namespace :admin do

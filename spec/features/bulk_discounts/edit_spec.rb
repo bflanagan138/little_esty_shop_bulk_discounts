@@ -46,28 +46,36 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
 
-    visit merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
-  end
-
-  describe 'us4' do
-    it 'shows bulk discount quantity threshold and percentage discount' do
-      expect(page).to have_content(@bulk_discounts_1.name)
-      expect(page).to have_content("#{@bulk_discounts_1.percent_off}% Off")
-      expect(page).to have_content(@bulk_discounts_1.minimum_quantity)
-      expect(page).to_not have_content(@bulk_discounts_4.name)
-    end
+    # visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
+  
   end
 
   describe 'us5' do
-    it 'has a link to edit the bulk discount' do
-      expect(page).to have_link("Edit #{@bulk_discounts_1.name}")
-      expect(page).to_not have_link("Edit #{@bulk_discounts_2.name}")
-    end
-    
-    it 'takes me to an edit page' do
-      click_link("Edit #{@bulk_discounts_1.name}")
+    it 'shows an an edit form for the discount with all attributes pre-populated' do
+      visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
+      expect(current_path).to_not eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}")
 
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}/edit")
+      expect(page).to have_content("Edit")
+      expect(find('form')).to have_content("Name")
+      expect(find('form')).to have_content("Minimum quantity")
+      expect(find('form')).to have_content("Percent off")
+      
+      page.should have_field("Name", with: "#{@bulk_discounts_1.name}")
+      page.should have_field("Minimum quantity", with: "#{@bulk_discounts_1.minimum_quantity}")
+      page.should have_field("Percent off", with: "#{@bulk_discounts_1.percent_off}")
+     
+      fill_in("Name", with: "Eleven for Eleven")
+      fill_in("Percent off", with: "11")
+      fill_in("Minimum quantity", with: "11")
+      click_button("Save")
+      
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}")
+      
+      expect(page).to have_content("Eleven for Eleven")
+      expect(page).to have_content("Minimum Order Quantity: 11")
+      expect(page).to have_content("Discount: 11%")
+      expect(page).to_not have_content("Ten for Ten")
+     
     end
   end
 end

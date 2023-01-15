@@ -1,0 +1,5 @@
+<h1> Edit </h1>
+<%= render partial: "form", locals: { path:"/merchant/#{@edit_discount.merchant_id}/bulk_discounts/#{@edit_discount.id}", 
+                            method: :patch,
+                            button_text: "Save", 
+                            local: :true }%>

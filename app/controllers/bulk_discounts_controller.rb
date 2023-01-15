@@ -30,7 +30,19 @@ class BulkDiscountsController < ApplicationController
 
   def show
     @show_discount = BulkDiscount.find(params[:id])
-    # require 'pry'; binding.pry
+    
+  end
+
+  def edit
+    @edit_discount = BulkDiscount.find(params[:id])
+  end
+
+  def update
+    discount = BulkDiscount.find_by(merchant_id: params[:merchant_id], id: params[:id])
+    discount.update(bulk_discount_params)
+
+    redirect_to "/merchant/#{discount.merchant_id}/bulk_discounts/#{discount.id}"
+    flash[:alert] = "Discount Updated"
   end
 
   private
