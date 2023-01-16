@@ -1,7 +1,15 @@
+require 'httparty'
+require 'json'
+
 class BulkDiscountsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @bulk_discounts = @merchant.bulk_discounts
+
+    response = HTTParty.get 'https://date.nager.at/api/v3/NextPublicHolidays/US' 
+    api_body = response.body 
+    @holidays = JSON.parse(api_body, symbolize_names: true).first(3)
+  
   end
 
   def new

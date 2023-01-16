@@ -84,5 +84,12 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to_not have_content("#{@bulk_discounts_1.name}")
     end
   end
+
+  describe 'bd_us9' do
+    it 'has a section with a header of Upcoming Holidays that shows the name and date of the next 3 US holidays' do
+      save_and_open_page
+      expect(page).to have_content("Upcoming Holidays")
+    end
+  end
 end
 

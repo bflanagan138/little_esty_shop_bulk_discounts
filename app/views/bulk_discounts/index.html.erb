@@ -1,3 +1,5 @@
+<html>
+
 <h1> Bulk Discounts </h1>
 <h3><%= link_to 'New Discount', new_merchant_bulk_discount_path(@merchant), class: 'link_1', style: 'pull-right' %>
 <br>
@@ -10,4 +12,9 @@
 <%= link_to "Delete", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}", method: :delete %>
 <br>
 </div>
+<% end %>
+
+<h2> Upcoming Holidays </h2>
+<% @holidays.each do |holiday| %>
+<p> Holiday: <%= holiday[:name]%>, Date: <%= holiday[:date]%>
 <% end %>

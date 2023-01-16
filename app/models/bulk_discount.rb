@@ -4,5 +4,4 @@ class BulkDiscount < ApplicationRecord
   has_many :items, through: :merchant
   has_many :invoices, through: :merchant
 
-
 end
