@@ -7,6 +7,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
+  has_many :bulk_discounts, through: :merchants
 
   enum status: [:cancelled, 'in progress', :completed]
 
@@ -14,7 +15,10 @@ class Invoice < ApplicationRecord
     invoice_items.sum("unit_price * quantity")
   end
 
-  def total_discounted_revenue
-    require 'pry'; binding.pry
+  def bulk_discount_options
+    self.bulk_discounts.distinct.order(minimum_quantity: :desc)
   end
+
+  # def total_discounted_revenue
+  # end
 end
