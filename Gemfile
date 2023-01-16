@@ -44,6 +44,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'httparty'
+  gem 'table_print'
 end
 
 group :development do
