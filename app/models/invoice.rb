@@ -14,4 +14,12 @@ class Invoice < ApplicationRecord
   def total_revenue
     invoice_items.sum("unit_price * quantity")
   end
+
+  def bulk_discount_options
+    self.bulk_discounts.distinct.order(minimum_quantity: :desc)
+  end
+
+  def active_invoices
+    self.where("status != 0")
+  end
 end
