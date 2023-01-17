@@ -62,5 +62,9 @@ RSpec.describe Invoice, type: :model do
     it 'returns a total discount for invoice' do
       expect(@invoice_1.total_discount).to eq(18.0)
     end
+
+    it 'returns a total revenue after bulk discounts' do
+      expect(@invoice_1.total_revenue_after_discounts).to eq(@invoice_1.total_revenue - @invoice_1.total_discount)
+    end
   end
 end

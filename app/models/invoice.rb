@@ -23,5 +23,8 @@ class Invoice < ApplicationRecord
     .order(best_disc: :desc)
     .sum(&:best_disc)
   end
-  
+
+  def total_revenue_after_discounts
+   total_revenue - total_discount
+  end
 end
