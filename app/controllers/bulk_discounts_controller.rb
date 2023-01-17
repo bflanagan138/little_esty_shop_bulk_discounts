@@ -1,7 +1,14 @@
+require 'httparty'
+require 'json'
+
 class BulkDiscountsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @bulk_discounts = @merchant.bulk_discounts
+
+    response = HTTParty.get 'https://date.nager.at/api/v3/NextPublicHolidays/US' 
+    api_body = response.body 
+    @holidays = JSON.parse(api_body, symbolize_names: true).first(3)
   end
 
   def new
@@ -30,7 +37,6 @@ class BulkDiscountsController < ApplicationController
 
   def show
     @show_discount = BulkDiscount.find(params[:id])
-    
   end
 
   def edit
@@ -40,7 +46,7 @@ class BulkDiscountsController < ApplicationController
   def update
     discount = BulkDiscount.find_by(merchant_id: params[:merchant_id], id: params[:id])
     discount.update(bulk_discount_params)
-
+# require 'pry'; binding.pry
     redirect_to "/merchant/#{discount.merchant_id}/bulk_discounts/#{discount.id}"
     flash[:alert] = "Discount Updated"
   end
