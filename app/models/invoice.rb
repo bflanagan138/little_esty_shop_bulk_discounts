@@ -25,6 +25,6 @@ class Invoice < ApplicationRecord
   end
 
   def total_revenue_after_discounts
-   total_revenue - total_discount
+   self.total_revenue - self.total_discount
   end
 end
