@@ -41,8 +41,8 @@ RSpec.describe Invoice, type: :model do
       @bulk_discounts_3 = @merchant1.bulk_discounts.create!(name: "Five for 6", minimum_quantity: 6, percent_off: 5)
 
       expect(@invoice_1.total_revenue).to eq(260.0)
-
     end
+
     before(:each) do
       @merchant1 = Merchant.create!(name: 'Hair Care')
       @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant1.id, status: 1)
@@ -59,26 +59,12 @@ RSpec.describe Invoice, type: :model do
       @bulk_discounts_3 = @merchant1.bulk_discounts.create!(name: "Five for 6", minimum_quantity: 6, percent_off: 5)
     end
 
-    # it "displays total discounted revenue" do
-    #   expect(@invoice_1.total_discounted_revenue).to eq(100)
-    # end
+    it 'returns a total discount for invoice' do
+      expect(@invoice_1.total_discount).to eq(18.0)
+    end
 
-    it "has available discounts ordered from largest to smallest by quantity" do
-      @merchant1 = Merchant.create!(name: 'Hair Care')
-      @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant1.id, status: 1)
-      @item_2 = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 8, merchant_id: @merchant1.id)
-      @item_8 = Item.create!(name: "Butterfly Clip", description: "This holds up your hair but in a clip", unit_price: 5, merchant_id: @merchant1.id)
-      @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
-      @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
-      @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 10, status: 2)
-      @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 7, unit_price: 10, status: 1)
-      @ii_111 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 9, unit_price: 10, status: 1)
-
-      @bulk_discounts_1 = @merchant1.bulk_discounts.create!(name: "Ten for Ten", minimum_quantity: 10, percent_off: 10)
-      @bulk_discounts_2 = @merchant1.bulk_discounts.create!(name: "Eight for Eighty", minimum_quantity: 80, percent_off: 8)
-      @bulk_discounts_3 = @merchant1.bulk_discounts.create!(name: "Five for 6", minimum_quantity: 6, percent_off: 5)
-   
-      expect(@invoice_1.bulk_discount_options).to eq([@bulk_discounts_2, @bulk_discounts_1, @bulk_discounts_3])
+    it 'returns a total revenue after bulk discounts' do
+      expect(@invoice_1.total_revenue_after_discounts).to eq(@invoice_1.total_revenue - @invoice_1.total_discount)
     end
   end
 end

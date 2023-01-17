@@ -51,6 +51,12 @@ RSpec.describe 'invoices show' do
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
     @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
+
+    @bulk_discounts_1 = BulkDiscount.create!(name: "Ten for Ten", minimum_quantity: 10, percent_off: 10, merchant_id: @merchant1.id)
+    @bulk_discounts_2 = BulkDiscount.create!(name: "Tuesday Special", minimum_quantity: 15, percent_off: 12, merchant_id: @merchant1.id)
+    @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
+    @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
+
   end
 
   it "shows the invoice information" do
@@ -104,8 +110,12 @@ RSpec.describe 'invoices show' do
     it 'shows total revenue for merchant from invoice excluding discounts' do
       visit merchant_invoice_path(@merchant1, @invoice_1)
       expect(page).to have_content("Total Revenue: #{@invoice_1.total_revenue}")
-    end
+    end    
 
-    
+    it 'shows total revenue after bulk discounts are applied' do
+      visit merchant_invoice_path(@merchant1, @invoice_1)
+      expect(page).to have_content("Total Discounted Revenue: #{@invoice_1.total_revenue_after_discounts}")
+      save_and_open_page
+    end
   end
 end

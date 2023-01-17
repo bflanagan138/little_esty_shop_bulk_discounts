@@ -15,11 +15,16 @@ class Invoice < ApplicationRecord
     invoice_items.sum("unit_price * quantity")
   end
 
-  def bulk_discount_options
-    self.bulk_discounts.distinct.order(minimum_quantity: :desc)
+  def total_discount
+    InvoiceItem.joins(:bulk_discounts)
+    .where("invoice_items.quantity >= bulk_discounts.minimum_quantity")
+    .select("invoice_items.id, max(invoice_items.quantity * invoice_items.unit_price * (bulk_discounts.percent_off / 100.00)) AS best_disc")
+    .group("invoice_items.id")
+    .order(best_disc: :desc)
+    .sum(&:best_disc)
   end
 
-  def active_invoices
-    self.where("status != 0")
+  def total_revenue_after_discounts
+   self.total_revenue - self.total_discount
   end
 end
