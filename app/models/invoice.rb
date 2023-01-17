@@ -20,6 +20,7 @@ class Invoice < ApplicationRecord
     self.bulk_discounts.distinct.order(minimum_quantity: :desc)
   end
 
-  # def total_discounted_revenue
-  # end
+  def active_invoices
+    self.where("status != 0")
+  end
 end
