@@ -45,9 +45,6 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discounts_2 = BulkDiscount.create!(name: "Tuesday Special", minimum_quantity: 15, percent_off: 12, merchant_id: @merchant1.id)
     @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
-
-    # visit edit_merchant_bulk_discount_path(@merchant1, @bulk_discounts_1)
-  
   end
 
   describe 'us5' do
