@@ -56,6 +56,7 @@ RSpec.describe 'invoices show' do
     @bulk_discounts_2 = BulkDiscount.create!(name: "Tuesday Special", minimum_quantity: 15, percent_off: 12, merchant_id: @merchant1.id)
     @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @merchant1.id)
     @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @merchant2.id)
+    @bulk_discounts_5 = BulkDiscount.create!(name: "Last Chance", minimum_quantity: 8, percent_off: 4, merchant_id: @merchant1.id)
 
   end
 
@@ -115,7 +116,15 @@ RSpec.describe 'invoices show' do
     it 'shows total revenue after bulk discounts are applied' do
       visit merchant_invoice_path(@merchant1, @invoice_1)
       expect(page).to have_content("Total Discounted Revenue: #{@invoice_1.total_revenue_after_discounts}")
-      save_and_open_page
+    end
+  end
+
+  describe 'us7' do
+    it 'has link to each item discount' do
+      visit merchant_invoice_path(@merchant1, @invoice_1)
+      expect(page).to have_content("Discount")
+      click_link "Ten for Ten"
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}")
     end
   end
 end
