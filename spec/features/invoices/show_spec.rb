@@ -123,17 +123,8 @@ RSpec.describe 'invoices show' do
     it 'has link to each item discount' do
       visit merchant_invoice_path(@merchant1, @invoice_1)
       expect(page).to have_content("Discount")
-      save_and_open_page
-
-      # <td style="text-align:center"><% bulk_disc = [] %>
-            #                               <% i.bulk_discounts.each do |discount| %>
-            #                               <% if i.quantity >= discount.minimum_quantity %>
-            #                                   <% bulk_disc << discount %>
-            #                                   <% greatest = bulk_disc.last %>
-            #                                   <%= link_to "#{greatest.name}", merchant_bulk_discount_path(@merchant, greatest.id) %>
-            #                                   <% end %>
-            #                               <% end %>
-            # </td>
+      click_link "Ten for Ten"
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}")
     end
   end
 end
