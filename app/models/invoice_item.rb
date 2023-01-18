@@ -23,8 +23,6 @@ class InvoiceItem < ApplicationRecord
   def item_bulk_discount
     self.bulk_discounts
     .where("bulk_discounts.minimum_quantity <= #{self.quantity}")
-    .order("bulk_discounts.percent_off desc")
-    .group("bulk_discounts.id")
-    .limit(1)
+    .order("bulk_discounts.percent_off desc").first
     end
 end

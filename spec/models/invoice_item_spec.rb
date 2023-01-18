@@ -53,8 +53,8 @@ RSpec.describe InvoiceItem, type: :model do
     it 'returns bulk discount for item' do
       @ii_5 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_1.id, quantity: 50, unit_price: 5, status: 1)
       
-      expect(@ii_1.item_bulk_discount).to eq([@bulk_discounts_1])
-      expect(@ii_5.item_bulk_discount).to eq([@bulk_discounts_2])
+      expect(@ii_1.item_bulk_discount).to eq(@bulk_discounts_1)
+      expect(@ii_5.item_bulk_discount).to eq(@bulk_discounts_2)
   
     end
   end
