@@ -19,6 +19,7 @@ RSpec.describe InvoiceItem, type: :model do
   describe "class methods" do
     before(:each) do
       @m1 = Merchant.create!(name: 'Merchant 1')
+      @m2 = Merchant.create!(name: 'Merchant 2')
       @c1 = Customer.create!(first_name: 'Bilbo', last_name: 'Baggins')
       @c2 = Customer.create!(first_name: 'Frodo', last_name: 'Baggins')
       @c3 = Customer.create!(first_name: 'Samwise', last_name: 'Gamgee')
@@ -33,16 +34,28 @@ RSpec.describe InvoiceItem, type: :model do
       @i3 = Invoice.create!(customer_id: @c2.id, status: 2)
       @i4 = Invoice.create!(customer_id: @c3.id, status: 2)
       @i5 = Invoice.create!(customer_id: @c4.id, status: 2)
-      @ii_1 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 0)
-      @ii_2 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_2.id, quantity: 1, unit_price: 8, status: 0)
-      @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 2)
+      @ii_1 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_1.id, quantity: 10, unit_price: 10, status: 0)
+      @ii_2 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_2.id, quantity: 9, unit_price: 8, status: 0)
+      @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_3.id, quantity: 100, unit_price: 5, status: 2)
       @ii_4 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
-
+      
+      @bulk_discounts_1 = BulkDiscount.create!(name: "Ten for Ten", minimum_quantity: 10, percent_off: 10, merchant_id: @m1.id)
+      @bulk_discounts_2 = BulkDiscount.create!(name: "Tuesday Special", minimum_quantity: 15, percent_off: 12, merchant_id: @m1.id)
+      @bulk_discounts_3 = BulkDiscount.create!(name: "Half Price", minimum_quantity: 100, percent_off: 50, merchant_id: @m1.id)
+      @bulk_discounts_4 = BulkDiscount.create!(name: "Stingy Offer", minimum_quantity: 44, percent_off: 5, merchant_id: @m2.id)
+  
     end
 
     it 'incomplete_invoices' do
       expect(InvoiceItem.incomplete_invoices).to eq([@i1, @i3])
     end
 
+    it 'returns bulk discount for item' do
+      @ii_5 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_1.id, quantity: 50, unit_price: 5, status: 1)
+      
+      expect(@ii_1.item_bulk_discount).to eq([@bulk_discounts_1])
+      expect(@ii_5.item_bulk_discount).to eq([@bulk_discounts_2])
+  
+    end
   end
 end

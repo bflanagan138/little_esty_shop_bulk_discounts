@@ -28,4 +28,13 @@ class Invoice < ApplicationRecord
    self.total_revenue - self.total_discount
   end
 
+  # def item_bulk_discount
+  #   require 'pry'; binding.pry
+  #   BulkDiscount.joins(:invoice_items)
+  #   .where("invoice_items.quantity >= bulk_discounts.minimum_quantity")
+  #   .select("invoice_items.id, max(invoice_items.quantity * invoice_items.unit_price * (bulk_discounts.percent_off / 100.00)) AS best_disc")
+  #   .group("bulk_discounts.id")
+  #   .order(best_disc: :desc)
+  #   .limit(1)
+  # end
 end
