@@ -50,9 +50,12 @@ RSpec.describe Invoice, type: :model do
       @item_8 = Item.create!(name: "Butterfly Clip", description: "This holds up your hair but in a clip", unit_price: 5, merchant_id: @merchant1.id)
       @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
       @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
+      @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
+
       @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 10, status: 2)
       @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 7, unit_price: 10, status: 1)
       @ii_111 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 9, unit_price: 10, status: 1)
+      @ii_111 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_2.id, quantity: 9, unit_price: 10, status: 1)
 
       @bulk_discounts_1 = @merchant1.bulk_discounts.create!(name: "Ten for Ten", minimum_quantity: 10, percent_off: 10)
       @bulk_discounts_2 = @merchant1.bulk_discounts.create!(name: "Eight for Eighty", minimum_quantity: 80, percent_off: 8)
