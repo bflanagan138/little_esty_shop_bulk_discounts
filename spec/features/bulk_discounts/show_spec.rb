@@ -66,7 +66,6 @@ RSpec.describe 'merchant dashboard' do
     
     it 'takes me to an edit page' do
       click_link("Edit #{@bulk_discounts_1.name}")
-
       expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bulk_discounts_1.id}/edit")
     end
   end
